@@ -1,0 +1,60 @@
+clear
+
+::Azure login
+az login
+Import-Module Az | Connect-AzAccount
+
+::Azure version
+az --version
+
+::Powershell version
+$PSVersionTable.PSVersion
+
+::find something about everything
+az find blob
+az find "az vm"
+
+::some help
+az storage blob --help
+Get-Help Get-ChildItem -detailed
+
+::create resource group
+az group create --name test-rG --location westeurope
+New-AzResourceGroup -Name test-rG -Location westeurope
+
+::list all resource groups 
+az group list -o table
+az group list --output table
+Get-AzResourceGroup | Format-Table
+
+::list all resources
+az resource list -o table
+Get-AzResource | ft
+
+::all resource from one group
+az resource list --resource-group NetworkWatcherRG -o table
+Get-AzResource -ResourceGroupName NetworkWatcherRG | ft
+
+::filtering output
+az group list --query "[?name == 'NetworkWatcherRG']" -o table
+
+::transform output using JMESPath
+locations[?state == 'WA'].name | sort(@) | {WashingtonCities: join(', ', @)}
+#output looks like this:
+# {
+#   "WashingtonCities": "Bellevue, Olympia, Seattle"
+# }
+
+::remove resource group
+az group delete -n test-rG
+az group delete --name test-rG
+remove-AzResourceGroup -ResourceGroupName test-rG 
+
+::create account that will connect to REST Azure (by POSTMAN for example)
+az ad sp create-for-rbac
+
+::Show subscription id
+az account show --query id -o tsv
+Get-AzSubscription
+Get-AzContext
+

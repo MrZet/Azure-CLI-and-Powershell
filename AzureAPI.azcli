@@ -1,0 +1,11 @@
+::running app
+dotnet run
+
+::adding nuget package (ie Blobs)
+dotnet add package Azure.Storage.Blobs
+dotnet add package Microsoft.Extensions.Configuration.Json
+
+::creating file (ie config file)
+touch appsettings.json #for unix-like systems
+#for windows nothing works for me...
+type nul > your_file.txt #this work however error appears

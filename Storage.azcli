@@ -1,0 +1,24 @@
+::adding storage account
+az storage account create `
+  --kind StorageV2 `
+  --resource-group test-rG `
+  --location westeurope `
+  --name azz12038422 `
+  --sku Standard_LRS
+
+::adding storage container (see help)
+az storage container create -h
+
+::get and set connection string to storage account
+$CONNECTIONSTRING=(az storage account show-connection-string `
+--name abs123412345 `
+--output tsv)
+  echo $CONNECTIONSTRING
+
+::show containers list
+az storage container list `
+--account-name abs123412345 `
+-o table
+
+::show all blobs in defined storage account and blob container
+az storage blob list --account-name abs123412345 --container-name files --output table #--query [].{Name:name} 

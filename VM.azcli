@@ -1,0 +1,52 @@
+::to connect to VM by ssh (port 22)
+ssh zet@20.101.58.70
+
+::to connect if you want to change default path to private key (C:\Users\Zet\.ssh\  file name: id_rsa)
+ssh -i <private key path> zet@20.101.58.70
+
+::to generate ssh keys
+ssh-keygen -m PEM -t rsa -b 4096
+
+::Virtual machines
+New-AzVm
+Remove-AzVM
+Start-AzVM
+Stop-AzVM
+Restart-AzVM
+Get-AzVM -Status
+
+::creating new VM
+
+az vm create `
+    --resource-group TestResourceGroup `
+    --name test-wp1-eus-vm `
+    --image win2016datacenter `
+    --admin-username jonc `
+    --admin-password aReallyGoodPasswordHere
+
+New-AzVm -ResourceGroupName "test-rG" `
+ -Name "test-rG-westEurope-01" `
+ -Credential (Get-Credential) `
+ -Location "West Europe" `
+ -Image UbuntuLTS `
+ -OpenPorts 22
+
+::VM info into variable
+$vm = (Get-AzVM -Name "test-rG-westEurope-01" -ResourceGroupName "test-rG")
+$vm
+$vm.HardwareProfile
+$vm.StorageProfile.OsDisk
+$vm | Get-AzPublicIpAddress
+
+::connecting to VM (user zet, ip addres you can get with the query above)
+ssh zet@20.86.152.5
+
+::logut from UbuntuLTS
+exit
+
+::stop VM
+Stop-AzVM -Name $vm.Name -ResourceGroup $vm.ResourceGroupName
+
+::remove VM
+Remove-AzVM -Name $vm.Name -ResourceGroup $vm.ResourceGroupName
+
