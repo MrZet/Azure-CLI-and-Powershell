@@ -31,3 +31,6 @@ az webapp deployment source config-zip `
 --src ../site.zip `
 --name web123app678 `
 --resource-group test-rG
+
+::to use curl in win cmd
+Remove-item alias:curl #more info here: https://stackoverflow.com/questions/25044010/running-curl-on-64-bit-windows
