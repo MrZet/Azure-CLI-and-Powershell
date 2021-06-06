@@ -13,16 +13,37 @@ Remove-AzVM
 Start-AzVM
 Stop-AzVM
 Restart-AzVM
+
+::get status of VMs
 Get-AzVM -Status
 
-::creating new VM
+az vm list -d -o table
 
+::get pulic IPs of VM
+$ipaddress=(az vm show `
+  --name MeanStack `
+  --resource-group test-mean `
+  --show-details `
+  --query [publicIps] `
+  --output tsv)
+$ipaddress 
+
+::creating new VM
+#with user and password
 az vm create `
     --resource-group TestResourceGroup `
     --name test-wp1-eus-vm `
     --image win2016datacenter `
     --admin-username jonc `
     --admin-password aReallyGoodPasswordHere
+
+#with SSH keys - if you have id_rsa in default catalog --generate-ssh-keys option will use it and it prevent generation of new keys
+az vm create `
+  --resource-group test-mean `
+  --name MeanStack `
+  --image Canonical:UbuntuServer:16.04-LTS:latest `
+  --admin-username zet `
+  --generate-ssh-keys
 
 New-AzVm -ResourceGroupName "test-rG" `
  -Name "test-rG-westEurope-01" `
@@ -49,4 +70,10 @@ Stop-AzVM -Name $vm.Name -ResourceGroup $vm.ResourceGroupName
 
 ::remove VM
 Remove-AzVM -Name $vm.Name -ResourceGroup $vm.ResourceGroupName
+
+::open port 80 to allow incoming traffic (outgoing traffic is open by deafult)
+az vm open-port `
+  --port 80 `
+  --resource-group test-mean `
+  --name MeanStack
 
