@@ -1,0 +1,9 @@
+::curl is here on Windows 10
+C:\Program Files\Git\mingw64\bin\
+
+::using CURL to check Azure Function
+./curl `
+--header "Content-Type: application/json" `
+--header "x-functions-key: tK25RYSfSa2tL6PbG3JgDMaOZ4QUEfSLROXOrVTYNsG/giP9dehrRg==" `
+--request POST `
+--data "{\"name\": \"Azure Function\"}" https://ttzzfunctionapp.azurewebsites.net/api/HttpTrigger1?code=tK25RYSfSa2tL6PbG3JgDMaOZ4QUEfSLROXOrVTYNsG/giP9dehrRg==

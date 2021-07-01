@@ -1,0 +1,27 @@
+::create azure container registry
+az acr create `
+--name myregistryTTZZ `
+--resource-group mygroup `
+--sku standard `
+--admin-enabled true
+
+::build an image from the current folder's content 
+::it should be DOCKERFILE inside folder to give instruction do azr how to build image
+az acr build `
+--registry myregistryTTZZ `
+--image webimage `
+.  ## dot is mandatory
+
+::create task with name buildwebapp 
+::each time a change is committed, the task builds the webimage Docker image from the source code in GitHub 
+::and stores it to your registry in Container Registry
+az acr task create `
+--registry myregistryTTZZ `
+--name buildwebapp `
+--image webimage `
+--context https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git#main `
+--file Dockerfile `
+--git-access-token <access_token> #you need to create a GitHub personal access token with permissions to create a webhook in your repository
+
+
+
