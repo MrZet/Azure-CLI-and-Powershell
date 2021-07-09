@@ -22,3 +22,7 @@ az storage container list `
 
 ::show all blobs in defined storage account and blob container
 az storage blob list --account-name abs123412345 --container-name files --output table #--query [].{Name:name} 
+
+::show account keys that are connected to given storage account
+az storage account keys list --account-name articlesubmissionttzz
+Get-AzStorageAccountKey

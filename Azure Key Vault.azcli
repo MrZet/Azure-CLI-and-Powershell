@@ -1,0 +1,15 @@
+::create Azure Key Vault
+az keyvault create `
+    --resource-group <resource-group> `
+    --name <your-unique-vault-name>
+    
+New-AzKeyVault -Name <your-unique-vault-name> -ResourceGroupName <resource-group>
+
+::create HSM key
+$key = Add-AzureKeyVaultKey -VaultName 'contoso' -Name 'MyFirstKey' -Destination 'HSM' #other destination is 'Software'
+
+:: Get Key Vaults (name among other data)
+Get-AzKeyVault
+
+:: Get secret
+Get-AzKeyVaultSecret -VaultName 'TTZZKeyVault' -Name 'HiddenLocation'

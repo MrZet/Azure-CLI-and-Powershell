@@ -1,0 +1,26 @@
+
+$ADMINLOGIN='serverAdmin'
+$PASSWORD='tyPicalPassword!1'
+$SERVERNAME='server116923'
+$RESOURCEGROUP='test-SQL'
+$LOCATION='westeurope'
+
+:: create Azure SQL Database server
+az sql server create `
+    --name $SERVERNAME `
+    --resource-group $RESOURCEGROUP `
+    --location $LOCATION `
+    --admin-user $ADMINLOGIN `
+    --admin-password $PASSWORD
+
+:: create Azure SQL Database server
+az sql db create --resource-group $RESOURCEGROUP `
+    --server $SERVERNAME `
+    --name marketplaceDb `
+    --sample-name AdventureWorksLT `
+    --service-objective Basic
+
+:: get ConnectionString to database
+az sql db show-connection-string --client sqlcmd --name marketplaceDb --server $SERVERNAME | jq -r
+# return: 
+# sqlcmd -S tcp:server116923.database.windows.net,1433 -d marketplaceDb -U <username> -P <password> -N -l 30

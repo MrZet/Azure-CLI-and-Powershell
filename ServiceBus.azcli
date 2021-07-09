@@ -1,0 +1,24 @@
+:: display the primary connection string for  Service Bus namespace.
+az servicebus namespace authorization-rule keys list `
+    --resource-group serviceBus-rg `
+    --name RootManageSharedAccessKey `
+    --query primaryConnectionString `
+    --output tsv `
+    --namespace-name salesteamappTTZZ
+
+:: how many messages are in queue
+az servicebus queue show `
+    --resource-group serviceBus-rg `
+    --name salesmessages `
+    --query messageCount `
+    --namespace-name salesteamappTTZZ
+
+:: how many messages are in given topic
+az servicebus topic subscription show `
+    --resource-group serviceBus-rg `
+    --namespace-name salesteamappTTZZ `
+    --topic-name salesperformancemessages `
+    --name EuropeAndAfrica `
+    --query messageCount
+#after sending message to topic, even if you change subsription there also be the same number of messegase, cause it is topic
+#each subscription is separately handled, if message on one subscription will be dropped, it won't be dropped in other subscription    
