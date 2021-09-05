@@ -18,6 +18,9 @@ az find "az vm"
 az storage blob --help
 Get-Help Get-ChildItem -detailed
 
+::create some default parameters. You will not have to provide them when you will create resources. 
+az configure --defaults group=tempTZ-rg location=westeurope
+
 ::create resource group
 az group create --name test-rG --location westeurope
 New-AzResourceGroup -Name test-rG -Location westeurope

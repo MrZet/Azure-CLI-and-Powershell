@@ -1,0 +1,24 @@
+::create some default parameters. You will not have to provide them when you will create resources. 
+az configure --defaults group=tempTZ-rg location=westeurope
+
+::create Event Hubs namespace
+$NS_NAME = 'ehubns-TTZZ'
+az eventhubs namespace create --name $NS_NAME
+
+::get connection string for Event Hubs namespace
+az eventhubs namespace authorization-rule keys list `
+    --name RootManageSharedAccessKey `
+    --namespace-name $NS_NAME
+#primaryConnectionString = "Endpoint=sb://ehubns-ttzz.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=7stiAxJVNJ7c8ar+D2agpInD58u6IRbK0d25WtgDwZM="
+#primaryKey = "7stiAxJVNJ7c8ar+D2agpInD58u6IRbK0d25WtgDwZM="
+
+::create Event Hub
+$HUB_NAME = 'hubname-TTZZ'
+az eventhubs eventhub create `
+--name $HUB_NAME `
+--namespace-name $NS_NAME
+
+::view the details of Event Hub
+az eventhubs eventhub show `
+--namespace-name $NS_NAME `
+--name $HUB_NAME
